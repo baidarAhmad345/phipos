@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,11 +18,8 @@ class _HomeScreenState extends State<HomeScreen> {
   TextEditingController firstContoller=TextEditingController();
     TextEditingController secondContoller=TextEditingController();
      
+String dropdownValue = 'A';
 
-  var list=[
-    "1","2","3","4"
-  ];
-  var initialvalue="1";
 
 
 
@@ -164,7 +163,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 shadowColor: Colors.transparent,
                               ),
                               onPressed: () {
-                                itemadddialog();
+                                additems(context);
                               },
                               child: const Text(
                                 "Add new item",
@@ -364,7 +363,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 shadowColor: Colors.transparent,
                               ),
                               onPressed: () {
-                                catadddialog();
+                                addnewcategory(context);
                               },
                               child: const Text(
                                 "Add new category",
@@ -389,7 +388,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         left: 29.0, right: 29),
                                     child: InkWell(
                                       onTap: () {
-                                        cateditdialog();
+                                        editcategory(context);
                                       },
                                       child: Card(
                                         color: const Color.fromRGBO(
@@ -418,18 +417,43 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-//this function is used for add category
-  catadddialog() {
-    AlertDialog alert = AlertDialog(
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(20.0))),
-      content: Container(
-        decoration: const BoxDecoration(),
-        height: MediaQuery.of(context).size.height * 0.3,
-        width: MediaQuery.of(context).size.width * 0.8,
-        child: Column(
-          children: [
-            Text(
+//this fucntion is used for new category
+ Future<void> addnewcategory(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Scaffold(
+          backgroundColor: Color.fromRGBO(72 ,72, 72, 1),
+          body: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [SizedBox(height: MediaQuery.of(context).size.height*0.3,),
+
+                Center(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width*0.8,
+                    height: MediaQuery.of(context).size.height*0.3,
+                    child: Stack(children: [
+                    
+                    
+                    //jhghj
+                     Positioned(
+          
+                       child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 30),
+                          decoration: const BoxDecoration(
+                             color: Colors.white,
+                             borderRadius: BorderRadius.all(Radius.circular(20))
+                            
+                     
+                          ),
+                           width: MediaQuery.of(context).size.width*0.8,
+                    height: MediaQuery.of(context).size.height*0.26,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                               Text(
               "Add new Category",
               style:heading
             ),
@@ -437,7 +461,7 @@ class _HomeScreenState extends State<HomeScreen> {
               height: MediaQuery.of(context).size.height * 0.02,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 30.0),
               child: TextFormField(
                 style: quicksearch,
                 keyboardType: TextInputType.emailAddress,
@@ -447,67 +471,90 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
               ),
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.03,
-            ),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.07,
-              width: MediaQuery.of(context).size.width * 0.6,
-              decoration: BoxDecoration(
-                  gradient: const LinearGradient(colors: [
-                    Color.fromRGBO(255, 160, 0, 1),
-                    Color.fromRGBO(255, 233, 0, 1),
-
-                    //add more colors
-                  ]),
-                  borderRadius: BorderRadius.circular(5),
-                  boxShadow: const <BoxShadow>[
-                    BoxShadow(
-                        color:
-                            Color.fromRGBO(0, 0, 0, 0.57), //shadow for button
-                        blurRadius: 5) //blur radius of shadow
-                  ]),
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.transparent,
-                    onSurface: Colors.transparent,
-                    shadowColor: Colors.transparent,
+         
+          
+                                       
+                                       
+                              ],
+                            ),
+                          ),
+                        ),
+                     ),
+                       Positioned(
+                        bottom: 0,
+                        left: 40,
+                                          child:  Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children:  [
+                            SizedBox(width: MediaQuery.of(context).size.width*0.09,),
+                            GestureDetector(
+                              onTap: (){
+                                Navigator.pop(context);
+                              },
+                              child: Image.asset("assets/groud.png" , height: 60,)) ,
+                        
+                            SizedBox(width: 20),
+                            Image.asset("assets/yes.png" , height: 60,) ,
+          
+                          ],
+                        )  ,
+                  
+                        
+                        ),
+                     
+                    ]),
                   ),
-                  onPressed: () {},
-                  child: const Text(
-                    "Add",
-                    style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold),
-                  )),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
+          ),
+        );
       },
     );
   }
 
-//this function is for edit category
-  cateditdialog() {
-    AlertDialog alert = AlertDialog(
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(20.0))),
-      content: Container(
-        decoration: const BoxDecoration(),
-        height: MediaQuery.of(context).size.height * 0.34,
-        width: MediaQuery.of(context).size.width * 0.8,
-        child: Column(
-          children: [
-            Text(
+
+
+//this function is used for edit new category
+  
+  
+  
+ Future<void> editcategory(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Scaffold(
+          backgroundColor: Color.fromRGBO(72 ,72, 72, 1),
+          body: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [SizedBox(height: MediaQuery.of(context).size.height*0.3,),
+
+                Center(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width*0.8,
+                    height: MediaQuery.of(context).size.height*0.3,
+                    child: Stack(children: [
+                    
+                    
+                    //jhghj
+                     Positioned(
+          
+                       child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 30),
+                          decoration: const BoxDecoration(
+                             color: Colors.white,
+                             borderRadius: BorderRadius.all(Radius.circular(20))
+                            
+                     
+                          ),
+                           width: MediaQuery.of(context).size.width*0.8,
+                    height: MediaQuery.of(context).size.height*0.26,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                 Text(
               "Edit category",
               style: heading
             ),
@@ -515,7 +562,7 @@ class _HomeScreenState extends State<HomeScreen> {
               height: MediaQuery.of(context).size.height * 0.02,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 30.0),
               child: TextFormField(
                 style: quicksearch,
                 keyboardType: TextInputType.emailAddress,
@@ -525,421 +572,205 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
               ),
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.03,
-            ),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.05,
-              width: MediaQuery.of(context).size.width * 0.6,
-              decoration: BoxDecoration(
-                  gradient: const LinearGradient(colors: [
-                    Color.fromRGBO(255, 160, 0, 1),
-                    Color.fromRGBO(255, 233, 0, 1),
-
-                    //add more colors
-                  ]),
-                  borderRadius: BorderRadius.circular(5),
-                  boxShadow: const <BoxShadow>[
-                    BoxShadow(
-                        color:
-                            Color.fromRGBO(0, 0, 0, 0.57), //shadow for button
-                        blurRadius: 5) //blur radius of shadow
-                  ]),
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.transparent,
-                    onSurface: Colors.transparent,
-                    shadowColor: Colors.transparent,
-                  ),
-                  onPressed: () {},
-                  child: const Text(
-                    "Save",
-                    style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold),
-                  )),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.02,
-            ),
-            SizedBox(
-                height: MediaQuery.of(context).size.height * 0.05,
-                width: MediaQuery.of(context).size.width * 0.6,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(primary: Colors.white),
-                    onPressed: () {},
-                    child: Text(
-                      "Remove",
-                      style: GoogleFonts.quicksand(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black),
-                    ))),
-          ],
-        ),
-      ),
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-
-
-
-  //this function is used for add new items
-  itemadddialog() {
-    AlertDialog alert = AlertDialog(
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(20.0))),
-
-      // titlePadding: EdgeInsets.only(left: 20),
-      // titleTextStyle: GoogleFonts.quicksand(fontSize: 34 , fontWeight:FontWeight.bold),
-      content: Container(
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-        height: MediaQuery.of(context).size.height * 0.7,
-        width: MediaQuery.of(context).size.width * 0.3,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Text(
-                "Add new item",
-                style: heading
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.02,
-              ),
-              Image.asset("assets/pic2.png"),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.02,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: TextFormField(
-                  style: quicksearch,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                      suffixIcon: InkWell(
-                          onTap: () {},
-                          child: const Icon(
-                            Icons.arrow_drop_down,
-                            size: 50,
-                            color: Colors.black,
-                          )),
-                      hintText: "Category",
-                      hintStyle: quicksearch
-                      ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: TextFormField(
-                  style:quicksearch,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                      hintText: "Item name",
-                      hintStyle:quicksearch
-                      ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: TextFormField(
-                  style: quicksearch,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                      hintText: "Item quantity",
-                      hintStyle: quicksearch
-                      ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: TextFormField(
-                  style: quicksearch,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                      hintText: "Item price",
-                      hintStyle: quicksearch
-                      )
-                      ,
-                ),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.03,
-              ),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.07,
-                width: MediaQuery.of(context).size.width * 0.6,
-                decoration: BoxDecoration(
-                    gradient: const LinearGradient(colors: [
-                      Color.fromRGBO(255, 160, 0, 1),
-                      Color.fromRGBO(255, 233, 0, 1),
-
-                      //add more colors
-                    ]),
-                    borderRadius: BorderRadius.circular(5),
-                    boxShadow: const <BoxShadow>[
-                      BoxShadow(
-                          color:
-                              Color.fromRGBO(0, 0, 0, 0.57), //shadow for button
-                          blurRadius: 5) //blur radius of shadow
-                    ]),
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.transparent,
-                      onSurface: Colors.transparent,
-                      shadowColor: Colors.transparent,
-                    ),
-                    onPressed: () {},
-                    child: const Text(
-                      "Add",
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold),
-                    )),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-//this function is used for edit items
-  itemeditdialog() {
-    AlertDialog alert = AlertDialog(
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(20.0))),
-
-      // titlePadding: EdgeInsets.only(left: 20),
-      // titleTextStyle: GoogleFonts.quicksand(fontSize: 34 , fontWeight:FontWeight.bold),
-      content: Container(
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-        height: MediaQuery.of(context).size.height * 0.77,
-        width: MediaQuery.of(context).size.width * 0.3,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Text(
-                "Edit Item Details",
-                style:heading
-                              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.02,
-              ),
-              Image.asset("assets/pic2.png"),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.02,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: TextFormField(
-                  style: quicksearch,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                      suffixIcon: InkWell(
-                          onTap: () {
-                   
-                    DropdownButton(
-                      value: initialvalue,
-                      items: list.map((e) {
-                        return DropdownMenuItem(
-                          value: e,
-                          child: Text(e));
-                      }).toList(), onChanged: (String? value) { 
-                        setState(() {
-                          initialvalue=value!;
-                        });
-                       },
-                    );
-
-                          },
-                          child: const Icon(
-                            Icons.arrow_drop_down,
-                            size: 50,
-                            color: Colors.black,
-                          )),
-                      hintText: "Laptop",
-                      hintStyle: quicksearch
-                      ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: TextFormField(
-                  style: quicksearch,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                      hintText: "Dell Alienware",
-                      hintStyle: quicksearch
-                      ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: TextFormField(
-                  style: quicksearch,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                      hintText: "10",
-                      hintStyle: quicksearch
-                      ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: TextFormField(
-                  style: quicksearch,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                      hintText: "80,000",
-                      hintStyle: quicksearch
-                      ),
-                ),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.03,
-              ),
-             
-             
-             
-            
            
-            ],
+                                       
+                                       
+                              ],
+                            ),
+                          ),
+                        ),
+                     ),
+                       Positioned(
+                        bottom: 0,
+                        left: 15,
+                                          child:  Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children:  [
+                            SizedBox(width: MediaQuery.of(context).size.width*0.09,),
+                            GestureDetector(
+                              onTap: (){
+                                Navigator.pop(context);
+                              },
+                              child: Image.asset("assets/groud.png" , height: 60,)) ,
+                            SizedBox(width: 10),
+                      Image.asset("assets/delete.png" , height: 60,) ,
+          
+                            SizedBox(width: 10),
+                            Image.asset("assets/yes.png" , height: 60,) ,
+          
+                          ],
+                        )  ,
+                  
+                        
+                        ),
+                     
+                    ]),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-      ),
-   
-   
-   
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
+        );
       },
     );
   }
 
+
+
+  
 
 
 //this function is used for add new customer
   
   
   
-     Future<void> _dialogBuilder(BuildContext context) {
+ Future<void> additems(BuildContext context) {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
         return Scaffold(
           backgroundColor: Color.fromRGBO(72 ,72, 72, 1),
-          body: Center(
-            child: Container(
-              width: MediaQuery.of(context).size.width*0.7,
-              height: MediaQuery.of(context).size.height*0.37,
-              child: Stack(children: [
-              
-              
-              
-               Positioned(
+          body: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [SizedBox(height: MediaQuery.of(context).size.height*0.1,),
 
-                 child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 30),
-                    decoration: const BoxDecoration(
-                       color: Colors.white,
-                       borderRadius: BorderRadius.all(Radius.circular(20))
-                      
-               
-                    ),
-                     width: MediaQuery.of(context).size.width*0.7,
-              height: MediaQuery.of(context).size.height*0.33,
-                    child: Column(
-                      children: [
-                        Text(
-                          "Edit Customer Details",
-                          style: heading
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 30),
-                          child: TextFormField(
-                            style: quicksearch,
-                            keyboardType: TextInputType.emailAddress,
-                            decoration: InputDecoration(
-                                hintText: "Danyal ",
-                                hintStyle:quicksearch
-                                ),
-                          ),
-                        ),
-                       Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 30),
-                          child: TextFormField(
-                            style: quicksearch,
-                            keyboardType: TextInputType.emailAddress,
-                            decoration: InputDecoration(
-                                hintText: "0321-34245434 ",
-                                hintStyle:quicksearch
-                                ),
-                          ),
-                        ),
-                      
+                Center(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width*0.8,
+                    height: MediaQuery.of(context).size.height*0.68,
+                    child: Stack(children: [
                     
-                      ],
-                    ),
-                  ),
-               ),
-                 Positioned(
-                  bottom: 0,
-                  left: 30,
-                  child:  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children:  [
-                      GestureDetector(
-                        onTap: (){
-                          Navigator.pop(context);
-                        },
-                        child: Image.asset("assets/groud.png" , height: 60,)) ,
-                      SizedBox(width: 10),
-                      Image.asset("assets/delete.png" , height: 60,) ,
-
-                      SizedBox(width: 10),
-                      Image.asset("assets/yes.png" , height: 60,) ,
-
-                    ],
-                  )  ,
-            
+                    
+                    //jhghj
+                     Positioned(
+          
+                       child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 30),
+                          decoration: const BoxDecoration(
+                             color: Colors.white,
+                             borderRadius: BorderRadius.all(Radius.circular(20))
+                            
+                     
+                          ),
+                           width: MediaQuery.of(context).size.width*0.8,
+                    height: MediaQuery.of(context).size.height*0.64,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Text(
+                                          "Add new Item",
+                                          style:heading
+                                      ),
+                                        SizedBox(
+                                          height: MediaQuery.of(context).size.height * 0.02,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                                          child: Image.asset("assets/pic2.png"),
+                                        ),
+                                        SizedBox(
+                                          height: MediaQuery.of(context).size.height * 0.02,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                                          child:  DropdownButtonFormField<String>(
+         decoration: InputDecoration(
+         
+         ),
+         hint: Text('category' , style: quicksearch,),
+         items: <String>['A', 'B', 'C', 'D'].map((String value) {
+         return DropdownMenuItem<String>(
+       value: value,
+         child: new Text(value  , style: quicksearch,),
+       );
+      }).toList(),
+     onChanged: (e) {
+          },
+),
+                                      
+                                      
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                                          child: TextFormField(
+                                            style: quicksearch,
+                                            keyboardType: TextInputType.emailAddress,
+                                            decoration: InputDecoration(
+                              hintText: "Item name",
+                              hintStyle: quicksearch
+                              ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                                          child: TextFormField(
+                                            style: quicksearch,
+                                            keyboardType: TextInputType.emailAddress,
+                                            decoration: InputDecoration(
+                              hintText: "Item quantity",
+                              hintStyle: quicksearch
+                              ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                                          child: TextFormField(
+                                            style: quicksearch,
+                                            keyboardType: TextInputType.emailAddress,
+                                            decoration: InputDecoration(
+                              hintText: "Item price",
+                              hintStyle: quicksearch
+                              ),
+                                          ),
+                                        ),
+                                        
+                                       
+                                       
+                                       
+                              ],
+                            ),
+                          ),
+                        ),
+                     ),
+                       Positioned(
+                        bottom: 0,
+                        left: 45,
+                                          child:  Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children:  [
+                            SizedBox(width: MediaQuery.of(context).size.width*0.09,),
+                            GestureDetector(
+                              onTap: (){
+                                Navigator.pop(context);
+                              },
+                              child: Image.asset("assets/groud.png" , height: 60,)) ,
+                          
+          
+                            SizedBox(width: 20),
+                            Image.asset("assets/yes.png" , height: 60,) ,
+          
+                          ],
+                        )  ,
                   
+                        
+                        ),
+                     
+                    ]),
                   ),
-               
-              ]),
+                ),
+              ],
             ),
           ),
         );
       },
     );
-  }}
+  }
 
-//this function is used for edit customer
+
+
+//this function is used for edit items
 
  Future<void> edititems(BuildContext context) {
     return showDialog<void>(
@@ -947,128 +778,136 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (BuildContext context) {
         return Scaffold(
           backgroundColor: Color.fromRGBO(72 ,72, 72, 1),
-          body: Center(
-            child: Container(
-              width: MediaQuery.of(context).size.width*0.7,
-              height: MediaQuery.of(context).size.height*0.9,
-              child: Stack(children: [
-              
-              
-              //jhghj
-               Positioned(
+          body: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [SizedBox(height: MediaQuery.of(context).size.height*0.1,),
 
-                 child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 30),
-                    decoration: const BoxDecoration(
-                       color: Colors.white,
-                       borderRadius: BorderRadius.all(Radius.circular(20))
-                      
-               
-                    ),
-                     width: MediaQuery.of(context).size.width*0.6,
-              height: MediaQuery.of(context).size.height*0.8,
-                    child: Column(
-                      children: [
-                        Text(
-                "Edit Item Details",
-                style:heading
+                Center(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width*0.8,
+                    height: MediaQuery.of(context).size.height*0.68,
+                    child: Stack(children: [
+                    
+                    
+                    //jhghj
+                     Positioned(
+          
+                       child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 30),
+                          decoration: const BoxDecoration(
+                             color: Colors.white,
+                             borderRadius: BorderRadius.all(Radius.circular(20))
+                            
+                     
+                          ),
+                           width: MediaQuery.of(context).size.width*0.8,
+                    height: MediaQuery.of(context).size.height*0.64,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Text(
+                                          "Edit Item Details",
+                                          style:heading
+                                      ),
+                                        SizedBox(
+                                          height: MediaQuery.of(context).size.height * 0.02,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 30),
+                                          child: Image.asset("assets/pic2.png"),
+                                        ),
+                                        SizedBox(
+                                          height: MediaQuery.of(context).size.height * 0.02,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                                          child: DropdownButtonFormField<String>(
+         decoration: InputDecoration(
+         
+         ),
+         hint: Text('Laptop' , style: quicksearch,),
+         items: <String>['A', 'B', 'C', 'D'].map((String value) {
+         return DropdownMenuItem<String>(
+       value: value,
+         child: new Text(value  , style: quicksearch,),
+       );
+      }).toList(),
+     onChanged: (e) {
+          },
+),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                                          child: TextFormField(
+                                            style: quicksearch,
+                                            keyboardType: TextInputType.emailAddress,
+                                            decoration: InputDecoration(
+                              hintText: "Dell Alienware",
+                              hintStyle: quicksearch
                               ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.02,
-              ),
-              Image.asset("assets/pic2.png"),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.02,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: TextFormField(
-                  style: quicksearch,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                      suffixIcon: InkWell(
-                          onTap: () {
-                   
-                    
-
-                          },
-                          child: const Icon(
-                            Icons.arrow_drop_down,
-                            size: 50,
-                            color: Colors.black,
-                          )),
-                      hintText: "Laptop",
-                      hintStyle: quicksearch
-                      ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: TextFormField(
-                  style: quicksearch,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                      hintText: "Dell Alienware",
-                      hintStyle: quicksearch
-                      ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: TextFormField(
-                  style: quicksearch,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                      hintText: "10",
-                      hintStyle: quicksearch
-                      ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: TextFormField(
-                  style: quicksearch,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                      hintText: "80,000",
-                      hintStyle: quicksearch
-                      ),
-                ),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.03,
-              ),
-             
-             
-             
-                      ],
-                    ),
-                  ),
-               ),
-                 Positioned(
-                  bottom: 0,
-                  left: 30,
-                  child:  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children:  [
-                      SizedBox(width: MediaQuery.of(context).size.width*0.09,),
-                      GestureDetector(
-                        onTap: (){
-                          Navigator.pop(context);
-                        },
-                        child: Image.asset("assets/groud.png" , height: 60,)) ,
-                    
-
-                      SizedBox(width: 10),
-                      Image.asset("assets/yes.png" , height: 60,) ,
-
-                    ],
-                  )  ,
-            
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                                          child: TextFormField(
+                                            style: quicksearch,
+                                            keyboardType: TextInputType.emailAddress,
+                                            decoration: InputDecoration(
+                              hintText: "10",
+                              hintStyle: quicksearch
+                              ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                                          child: TextFormField(
+                                            style: quicksearch,
+                                            keyboardType: TextInputType.emailAddress,
+                                            decoration: InputDecoration(
+                              hintText: "80,000",
+                              hintStyle: quicksearch
+                              ),
+                                          ),
+                                        ),
+                                        
+                                       
+                                       
+                                       
+                              ],
+                            ),
+                          ),
+                        ),
+                     ),
+                       Positioned(
+                        bottom: 0,
+                        left: 15,
+                                          child:  Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children:  [
+                            SizedBox(width: MediaQuery.of(context).size.width*0.09,),
+                            GestureDetector(
+                              onTap: (){
+                                Navigator.pop(context);
+                              },
+                              child: Image.asset("assets/groud.png" , height: 60,)) ,
+                            SizedBox(width: 10),
+                      Image.asset("assets/delete.png" , height: 60,) ,
+          
+                            SizedBox(width: 10),
+                            Image.asset("assets/yes.png" , height: 60,) ,
+          
+                          ],
+                        )  ,
                   
+                        
+                        ),
+                     
+                    ]),
                   ),
-               
-              ]),
+                ),
+              ],
             ),
           ),
         );
@@ -1077,6 +916,28 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
 
+
+  function(){
+       DropdownButton<String>(
+    value: dropdownValue,
+  
+    onChanged: (String? newValue) {
+      setState(() {
+        dropdownValue = newValue!;
+      });
+    },
+    items: <String>['One', 'Two', 'Free', 'Four']
+      .map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      })
+      .toList(),
+  );
+  }
+
+}
 
 
 
